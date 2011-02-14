@@ -20,8 +20,16 @@ class testApp : public ofBaseApp{
 		void mouseReleased(int x, int y, int button);
 		void windowResized(int w, int h);
 
-	
-	ofTexture	tex;
+        // audio "forced I/O" hack
+        void audioReceived 	(float * input, int bufferSize, int nChannels);
+        int psnFlag;
+        ProcessSerialNumber psn;
+
+        // misc
+		int 	bufferCounter, drawCounter, updateCounter;
+
+        // display texture
+        ofTexture	tex;
 };
 
 #endif
