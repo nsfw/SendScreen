@@ -68,12 +68,12 @@ uint32 * pixelsBelowWindow(int x, int y, int w, int h)
 	NSOpenGLContext * myContext = nil;
     NSView *myView = nil;
     NSWindow* window = nil;
-	
-    // In screensaver mode, set our window's level just above
-    // our BOINC screensaver's window level so it can appear
-    // over it.  This doesn't interfere with the screensaver
-    // password dialog because the dialog appears only after
-    // our screensaver is closed.
+
+    // holds the bitmap returned to the caller 
+    static NSBitmapImageRep *bitmapRep = nil;
+
+    // How do we set always on top?
+
     myContext = [ NSOpenGLContext currentContext ];
     if (myContext)
         myView = [ myContext view ];
@@ -95,25 +95,23 @@ uint32 * pixelsBelowWindow(int x, int y, int w, int h)
 	
     // Get a composite image of all the windows beneath your window
      capturedImage = CGWindowListCreateImage( windowRect, kCGWindowListOptionOnScreenBelowWindow, windowID, kCGWindowImageDefault );
+
     
     // The rest is as in the previous example...
     if(CGImageGetWidth(capturedImage) <= 1) {
         CGImageRelease(capturedImage);
-        //return nil;
-		return NULL;
+        return NULL;
     }
     
-    // Create a bitmap rep from the window and convert to NSImage...
-    NSBitmapImageRep *bitmapRep = [[[NSBitmapImageRep alloc] initWithCGImage: capturedImage] autorelease];
 
-    // why do we make the image? since we only want the bitMapData?
-    // NSImage *image = [[[NSImage alloc] init] autorelease];
-    // [image addRepresentation: bitmapRep];
+    // Note: should release and recreate if w/h change
+    if (bitmapRep==nil) bitmapRep = [[NSBitmapImageRep alloc] initWithCGImage: capturedImage];
+    else [bitmapRep initWithCGImage: capturedImage];
+
+	CGImageRelease(capturedImage);
     
 	uint32* bitmapPixels = (uint32*) [bitmapRep bitmapData];
 	
-	CGImageRelease(capturedImage);
     return bitmapPixels;
-    //return image;
 }
 
