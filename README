@@ -1,0 +1,22 @@
+SendScreen sends a portion of your MAC (OSX) screen someplace via OSC.
+
+Image is sent as a raw binary array, one ROW at a time of the format:
+uint16 width, height
+// row 0, ... row height-1
+uint8 red, green, blue x [width*height]  	// per row
+
+
+Usage:
+
+// v0.01
+Position the window over area to be echo'd to OSC
+Output Size = Capture Size = HARD CODED! 
+Output IP address and path = HARD CODED (command line?)
+
+// Future -- 
+OSC output info should be enterable
+Capture size may be an even multiple of output size (+ / - )
+When scaling down image will either be scaled (good for images) or
+decimated (maybe better for digital effects)
+
+
