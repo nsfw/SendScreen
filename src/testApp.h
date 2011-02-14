@@ -4,6 +4,8 @@
 
 #include "ofMain.h"
 
+#define INIT_H 90
+#define INIT_W 300
 
 class testApp : public ofBaseApp{
 
@@ -19,6 +21,8 @@ class testApp : public ofBaseApp{
 		void mousePressed(int x, int y, int button);
 		void mouseReleased(int x, int y, int button);
 		void windowResized(int w, int h);
+
+        int capW, capH;
 
         // audio "forced I/O" hack
         void audioReceived 	(float * input, int bufferSize, int nChannels);
