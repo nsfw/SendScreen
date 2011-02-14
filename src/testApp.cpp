@@ -6,35 +6,23 @@ extern "C" {
 
 #include <GLUT/glut.h>
 
-int t=0;
-
-void idle(){
-    t++;
-}
-
-void idle2(int i){
-    t+=i;
-}
-
-
 //--------------------------------------------------------------
 void testApp::setup(){
 	
     ofSetWindowTitle("SendScreen Window");
-
-	//CGContextRef cgctx = NULL;
-	// ofSetVerticalSync(true);
-	tex.allocate(300,300, GL_RGBA);
-
+	tex.allocate(INIT_W, INIT_H, GL_RGBA);
 	ofSetFrameRate(60);
 
+    // stuff that would be in constructor
+    capW = INIT_W;
+    capH = INIT_H;
 	
 	bufferCounter = 0;
 	drawCounter = 0;
     updateCounter = 0;
     psnFlag = 0;
 
-    // OK - let's listen to some audio so we get called more often
+    // Let's listen to some audio so we get called more often -- hackery!
 	ofSoundStreamSetup(0,2,this, 44100, 256, 4);	
 }
 
@@ -52,21 +40,21 @@ void testApp::update(){
 
 void testApp::draw(){
 
-	int w = 300;
-	int h = 300;
-
     static int i=0;
     	
-	uint32 * data = pixelsBelowWindow(ofGetWindowPositionX()+(i++%300),ofGetWindowPositionY(),w,h);
+	uint32 * data = pixelsBelowWindow(ofGetWindowPositionX()+(i++%300),ofGetWindowPositionY(),capW,capH);
     // convert to GL_RGBA format
     if(data!=NULL){
-        for (int i = 0; i < w*h; i++){
+        for (int i = 0; i < capW*capH; i++){
             // GL_RGBA = (uint32) AABBGGRR
             // NSImage = (uint32) BBGGRRAA
             data[i] = (data[i]>>8) | 0xff000000; 	// scoot down 8 bits - full alpha
         }
-        tex.loadData((unsigned char *) data, 300, 300, GL_RGBA);
+        tex.loadData((unsigned char *) data, capW, capH, GL_RGBA);
     }
+
+    // send this image via OSC
+
 
     // cover the whole screen area
 	tex.draw(0,0, ofGetWidth(), ofGetHeight());
@@ -97,8 +85,7 @@ void testApp::audioReceived 	(float * input, int bufferSize, int nChannels){
 
 //--------------------------------------------------------------
 void testApp::keyPressed(int key){
-
-	
+    // OF_KEY_LEFT, OF_KEY_UP, OF_KEY_RIGHT, OF_KEY_DOWN
 }
 
 //--------------------------------------------------------------
