@@ -15,13 +15,16 @@ void testApp::setup(){
 }
 
 
-//--------------------------------------------------------------
+// Note: Need to keep PRIORITY HIGH
+
 void testApp::update(){
 
 	int w = 300;
 	int h = 300;
+
+    static int i=0;
 	
-	uint32 * data = pixelsBelowWindow(ofGetWindowPositionX(),ofGetWindowPositionY(),w,h);
+	uint32 * data = pixelsBelowWindow(ofGetWindowPositionX()+(i++%300),ofGetWindowPositionY(),w,h);
     // convert to GL_RGBA format
     for (int i = 0; i < w*h; i++){
         // GL_RGBA = (uint32) AABBGGRR
