@@ -31,6 +31,8 @@
 #define _ofxOscMESSAGE_H
 
 #include "ofxOscArg.h"
+
+#include "OscTypes.h"
 #include <vector>
 #include <string>
 
@@ -72,6 +74,7 @@ public:
 	int32_t getArgAsInt32( int index ) const;
 	float getArgAsFloat( int index ) const;
 	string getArgAsString( int index ) const;
+    ofxOscArgBlob *getArgAsBlobPtr(int index ) const;
 
 	/// message construction
 	void setAddress( string _address ) { address = _address; };
@@ -80,7 +83,7 @@ public:
 	void addIntArg( int32_t argument );
 	void addFloatArg( float argument );
 	void addStringArg( string argument );
-
+    void addBlobArg( void* argument, int len );
 
 private:
 
