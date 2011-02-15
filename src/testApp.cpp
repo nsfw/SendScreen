@@ -6,23 +6,26 @@ extern "C" {
 
 #include <GLUT/glut.h>
 
-//--------------------------------------------------------------
 void testApp::setup(){
 	
     ofSetWindowTitle("SendScreen Window");
 	tex.allocate(INIT_W, INIT_H, GL_RGBA);
 	ofSetFrameRate(60);
 
+	// open an outbound OSC 
+	sender.setup( OUT_HOST, OUT_PORT );
+
     // stuff that would be in constructor
     capW = INIT_W;
     capH = INIT_H;
-	
+
+    // dbg stuff
 	bufferCounter = 0;
 	drawCounter = 0;
     updateCounter = 0;
-    psnFlag = 0;
 
     // Let's listen to some audio so we get called more often -- hackery!
+    psnFlag = 0;
 	ofSoundStreamSetup(0,2,this, 44100, 256, 4);	
 }
 
@@ -35,8 +38,6 @@ void testApp::update(){
 
     updateCounter++;
 }
-
-//--------------------------------------------------------------
 
 void testApp::draw(){
 
@@ -54,9 +55,9 @@ void testApp::draw(){
     }
 
     // send this image via OSC
+    if(data!=NULL) sendImage(data, capW, capH);
 
-
-    // cover the whole screen area
+    // cover the window
 	tex.draw(0,0, ofGetWidth(), ofGetHeight());
     drawCounter++;
 
@@ -82,6 +83,14 @@ void testApp::audioReceived 	(float * input, int bufferSize, int nChannels){
     CFRelease(e);
 }
 
+void testApp::sendImage(uint* data, int w, int h){
+    ofxOscMessage m;
+    m.setAddress( "/screen" );
+    m.addIntArg( w );
+    m.addIntArg( h );
+    m.addBlobArg( data, w*h );
+    sender.sendMessage( m );
+}
 
 //--------------------------------------------------------------
 void testApp::keyPressed(int key){
