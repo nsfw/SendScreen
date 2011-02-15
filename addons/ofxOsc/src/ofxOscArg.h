@@ -132,4 +132,27 @@ private:
 	std::string value;
 };
 
+class ofxOscArgBlob : public ofxOscArg
+{
+public:
+	ofxOscArgBlob( void* _value, int _len ) { value = _value; len = _len; }
+	~ofxOscArgBlob() {};
+
+	/// return the type of this argument
+	ofxOscArgType getType() { return OFXOSC_TYPE_BLOB; }
+	string getTypeName() { return "blob"; }
+
+	/// return values
+	void * get() const { return value; }
+    int getLen() { return len; }
+    
+	/// set value
+	void set( void *_value, int _len ) { value = _value; len = _len; }
+
+private:
+	void *value;
+    int len;
+};
+
+
 #endif
