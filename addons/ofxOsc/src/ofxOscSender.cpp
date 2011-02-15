@@ -112,8 +112,11 @@ void ofxOscSender::appendMessage( ofxOscMessage& message, osc::OutboundPacketStr
 			p << message.getArgAsFloat( i );
 		else if ( message.getArgType( i ) == OFXOSC_TYPE_STRING )
 			p << message.getArgAsString( i ).c_str();
-		else
-		{
+        else if ( message.getArgType( i ) == OFXOSC_TYPE_BLOB ){
+            ofxOscArgBlob *b = message.getArgAsBlobPtr(i);
+            osc::Blob blob(b->get(), b->getLen());
+			p << blob;			// oscpack will copy contents
+        } else {
 			assert( false && "bad argument type" );
 		}
 	}
