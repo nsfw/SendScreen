@@ -86,6 +86,19 @@ void ofxOscSender::sendMessage( ofxOscMessage& message )
 	socket->Send( p.Data(), p.Size() );
 }
 
+void ofxOscSender::sendRawMessage( ofxOscMessage& message )
+{
+	static const int OUTPUT_BUFFER_SIZE = 16384;
+	char buffer[OUTPUT_BUFFER_SIZE];
+    osc::OutboundPacketStream p( buffer, OUTPUT_BUFFER_SIZE );
+
+	// serialise the message
+	appendMessage( message, p );
+
+	socket->Send( p.Data(), p.Size() );
+}
+
+
 void ofxOscSender::appendBundle( ofxOscBundle& bundle, osc::OutboundPacketStream& p )
 {
 	// recursively serialise the bundle
