@@ -11,7 +11,8 @@ void testApp::setup(){
     ofSetWindowTitle("SendScreen Window");
 	tex.allocate(INIT_W, INIT_H, GL_RGBA);
 	ofSetFrameRate(60);
-
+	cout << "Sending to " << OUT_HOST << "\n";
+	
 	// open an outbound OSC 
 	sender.setup( OUT_HOST, OUT_PORT );
 
@@ -43,6 +44,7 @@ void testApp::draw(){
 
     static int i=0;
     	
+    i=0; // don't animate
 	uint32 * data = pixelsBelowWindow(ofGetWindowPositionX()+(i++%300),ofGetWindowPositionY(),capW,capH);
     // convert to GL_RGBA format
     if(data!=NULL){
@@ -88,8 +90,8 @@ void testApp::sendImage(uint* data, int w, int h){
     m.setAddress( "/screen" );
     m.addIntArg( w );
     m.addIntArg( h );
-    m.addBlobArg( data, w*h );
-    sender.sendMessage( m );
+    m.addBlobArg(data, w*h );
+    sender.sendRawMessage( m );
 }
 
 //--------------------------------------------------------------
