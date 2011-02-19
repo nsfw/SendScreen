@@ -57,8 +57,10 @@ public:
 	/// send messages to hostname and port
 	void setup( std::string hostname, int port );
 
-	/// send the given message
+	/// send the given message - wrapped in a bundle of 1
 	void sendMessage( ofxOscMessage& message );
+	/// send the given message naked
+	void sendRawMessage( ofxOscMessage& message );
 	/// send the given bundle
 	void sendBundle( ofxOscBundle& bundle );
 
