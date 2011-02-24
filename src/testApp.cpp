@@ -1,3 +1,5 @@
+#define RVIP	// use the actual installed IP address
+
 #include "testApp.h"
 
 extern "C" {
@@ -10,7 +12,7 @@ void testApp::setup(){
 	
     ofSetWindowTitle("SendScreen Window");
 	tex.allocate(INIT_W, INIT_H, GL_RGBA);
-	ofSetFrameRate(60);
+	ofSetFrameRate(30);
 	cout << "Sending to " << OUT_HOST << "\n";
 	
 	// open an outbound OSC 
