@@ -15,6 +15,7 @@
 		D2CAF7CF130B0857007CCDAA /* ofxOscMessage.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D2CAF7C7130B0857007CCDAA /* ofxOscMessage.cpp */; };
 		D2CAF7D0130B0857007CCDAA /* ofxOscReceiver.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D2CAF7C9130B0857007CCDAA /* ofxOscReceiver.cpp */; };
 		D2CAF7D1130B0857007CCDAA /* ofxOscSender.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D2CAF7CB130B0857007CCDAA /* ofxOscSender.cpp */; };
+		D2FE97451315DEE400A0A037 /* sendscreen_rvip.icns in Resources */ = {isa = PBXBuildFile; fileRef = D2FE97441315DEE400A0A037 /* sendscreen_rvip.icns */; };
 		E45BE0AA0E8CC67C009D7055 /* GLee.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E45BE0A90E8CC67C009D7055 /* GLee.a */; };
 		E45BE2E40E8CC69C009D7055 /* rtAudio.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E45BE2E30E8CC69C009D7055 /* rtAudio.a */; };
 		E45BE97B0E8CC7DD009D7055 /* AGL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E45BE9710E8CC7DD009D7055 /* AGL.framework */; };
@@ -97,6 +98,7 @@
 		D2CAF7CA130B0857007CCDAA /* ofxOscReceiver.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ofxOscReceiver.h; sourceTree = "<group>"; };
 		D2CAF7CB130B0857007CCDAA /* ofxOscSender.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ofxOscSender.cpp; sourceTree = "<group>"; };
 		D2CAF7CC130B0857007CCDAA /* ofxOscSender.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ofxOscSender.h; sourceTree = "<group>"; };
+		D2FE97441315DEE400A0A037 /* sendscreen_rvip.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; name = sendscreen_rvip.icns; path = icons/sendscreen_rvip.icns; sourceTree = "<group>"; };
 		E45BE0390E8CC647009D7055 /* FreeImage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FreeImage.h; path = ../../../libs/freeimage/include/FreeImage.h; sourceTree = SOURCE_ROOT; };
 		E45BE03F0E8CC650009D7055 /* fmod.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = fmod.h; path = ../../../libs/fmodex/include/fmod.h; sourceTree = SOURCE_ROOT; };
 		E45BE0400E8CC650009D7055 /* fmod.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = fmod.hpp; path = ../../../libs/fmodex/include/fmod.hpp; sourceTree = SOURCE_ROOT; };
@@ -174,6 +176,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		D25CBB671315D81600B3C994 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				D2FE97441315DEE400A0A037 /* sendscreen_rvip.icns */,
+			);
+			name = Resources;
+			sourceTree = "<group>";
+		};
 		D2CAF7AA130B0857007CCDAA /* addons */ = {
 			isa = PBXGroup;
 			children = (
@@ -459,6 +469,7 @@
 		E4B69B4A0A3A1720003C02F2 = {
 			isa = PBXGroup;
 			children = (
+				D25CBB671315D81600B3C994 /* Resources */,
 				E4B69B5B0A3A1756003C02F2 /* sendscreen.app */,
 				E4B6FCAD0C3E899E008CF71C /* openFrameworks-Info.plist */,
 				E4B69E1C0A3A1BDC003C02F2 /* src */,
@@ -559,6 +570,7 @@
 				E4B6FFFD0C3F9AB9008CF71C /* ShellScript */,
 				E4C2427710CC5ABF004149E2 /* CopyFiles */,
 				E4C2444710CC769B004149E2 /* CopyFiles */,
+				D25CBB6E1315D89E00B3C994 /* Resources */,
 			);
 			buildRules = (
 			);
@@ -574,6 +586,9 @@
 /* Begin PBXProject section */
 		E4B69B4C0A3A1720003C02F2 /* Project object */ = {
 			isa = PBXProject;
+			attributes = {
+				ORGANIZATIONNAME = RVIP;
+			};
 			buildConfigurationList = E4B69B4D0A3A1720003C02F2 /* Build configuration list for PBXProject "sendscreen" */;
 			compatibilityVersion = "Xcode 3.2";
 			developmentRegion = English;
@@ -593,6 +608,17 @@
 			);
 		};
 /* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		D25CBB6E1315D89E00B3C994 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				D2FE97451315DEE400A0A037 /* sendscreen_rvip.icns in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
 		E4B6FFFD0C3F9AB9008CF71C /* ShellScript */ = {
@@ -663,6 +689,7 @@
 					"-lpthread",
 				);
 				OTHER_LDFLAGS = "";
+				PRODUCT_NAME = SendScreen;
 			};
 			name = ReleaseUniversal;
 		};
@@ -712,7 +739,7 @@
 				LIBRARY_SEARCH_PATHS_QUOTED_FOR_TARGET_5 = "\"$(SRCROOT)/../../../libs/poco/lib/osx\"";
 				LIBRARY_SEARCH_PATHS_QUOTED_FOR_TARGET_6 = "\"$(SRCROOT)/../../../libs/rtAudio/lib/osx\"";
 				PREBINDING = NO;
-				PRODUCT_NAME = sendscreen;
+				PRODUCT_NAME = SendScreen;
 				WRAPPER_EXTENSION = app;
 				ZERO_LINK = NO;
 			};
@@ -749,6 +776,7 @@
 					"-lpthread",
 				);
 				OTHER_LDFLAGS = "";
+				PRODUCT_NAME = SendScreen;
 				SDKROOT = macosx10.5;
 			};
 			name = Debug;
@@ -785,6 +813,7 @@
 					"-lpthread",
 				);
 				OTHER_LDFLAGS = "";
+				PRODUCT_NAME = SendScreen;
 			};
 			name = Release;
 		};
@@ -836,7 +865,7 @@
 				LIBRARY_SEARCH_PATHS_QUOTED_FOR_TARGET_5 = "\"$(SRCROOT)/../../../libs/poco/lib/osx\"";
 				LIBRARY_SEARCH_PATHS_QUOTED_FOR_TARGET_6 = "\"$(SRCROOT)/../../../libs/rtAudio/lib/osx\"";
 				PREBINDING = NO;
-				PRODUCT_NAME = sendscreen;
+				PRODUCT_NAME = SendScreen;
 				WRAPPER_EXTENSION = app;
 				ZERO_LINK = NO;
 			};
@@ -888,7 +917,7 @@
 				LIBRARY_SEARCH_PATHS_QUOTED_FOR_TARGET_5 = "\"$(SRCROOT)/../../../libs/poco/lib/osx\"";
 				LIBRARY_SEARCH_PATHS_QUOTED_FOR_TARGET_6 = "\"$(SRCROOT)/../../../libs/rtAudio/lib/osx\"";
 				PREBINDING = NO;
-				PRODUCT_NAME = sendscreen;
+				PRODUCT_NAME = SendScreen;
 				WRAPPER_EXTENSION = app;
 				ZERO_LINK = NO;
 			};
