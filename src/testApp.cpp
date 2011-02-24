@@ -12,7 +12,7 @@ void testApp::setup(){
 	
     ofSetWindowTitle("SendScreen Window");
 	tex.allocate(INIT_W, INIT_H, GL_RGBA);
-	ofSetFrameRate(30);
+	ofSetFrameRate(15);
 	cout << "Sending to " << OUT_HOST << "\n";
 	
 	// open an outbound OSC 
@@ -26,6 +26,8 @@ void testApp::setup(){
 	bufferCounter = 0;
 	drawCounter = 0;
     updateCounter = 0;
+
+    AlwaysOnTop();
 
     // Let's listen to some audio so we get called more often -- hackery!
     psnFlag = 0;
@@ -59,7 +61,7 @@ void testApp::draw(){
     }
 
     // send this image via OSC
-    if(data!=NULL) sendImage(data, capW, capH);
+    if(data!=NULL) sendImage(data, capH, capW);
 
     // cover the window
 	tex.draw(0,0, ofGetWidth(), ofGetHeight());
@@ -87,12 +89,12 @@ void testApp::audioReceived 	(float * input, int bufferSize, int nChannels){
     CFRelease(e);
 }
 
-void testApp::sendImage(uint* data, int w, int h){
+void testApp::sendImage(uint* data, int h, int w){
     ofxOscMessage m;
     m.setAddress( "/screen" );
-    m.addIntArg( w );
     m.addIntArg( h );
-    m.addBlobArg(data, w*h );
+    m.addIntArg( w );
+    m.addBlobArg(data, w*h*4 );		// send blob in BYTES
     sender.sendRawMessage( m );
 }
 
