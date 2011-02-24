@@ -10,16 +10,21 @@
 #define INIT_H 9
 #define INIT_W 50
 
-#define OUT_H INIT_H		// NOTE: OUTPUT can not be more than 16384 (64kb) 
-#define OUT_W INIT_W		// due to OSC library limitation
+#define OUT_H INIT_H		// NOTE: OUTPUT can not be more than 4K on receiver side!
+#define OUT_W INIT_W		
 
 
 // #define OUT_HOST "127.0.0.1"
 #ifdef MC
 #define OUT_HOST "239.192.192.192"	// multicast
 #define OUT_PORT 9192
-#else
+#endif
+#ifdef DIRECT_CONNECT
 #define OUT_HOST "198.178.187.122"
+#define OUT_PORT 9999
+#endif
+#ifdef RVIP
+#define OUT_HOST "192.168.69.69"
 #define OUT_PORT 9999
 #endif
 
