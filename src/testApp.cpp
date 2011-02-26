@@ -79,7 +79,7 @@ void testApp::draw(){
 	ofSetColor(0x00);
 	char reportString[255];
 	sprintf(reportString, "%c%2d", forceKey?'*':' ',ms);
-	ofDrawBitmapString(reportString,5,5);
+	ofDrawBitmapString(reportString,1,8);
 	ofSetColor(0xffffffff);
 
 }
