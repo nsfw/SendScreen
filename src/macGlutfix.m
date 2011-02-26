@@ -51,6 +51,20 @@ void MacGLUTFix(bool isScreenSaver) {
         [ myWindow setLevel:RealSaverLevel ];
 }
 
+void AlwaysOnTop(){
+
+    NSOpenGLContext * myContext = nil;
+    NSView *myView = nil;
+    NSWindow* myWindow = nil;
+
+    myContext = [ NSOpenGLContext currentContext ];
+    if (myContext) myView = [ myContext view ];
+    if (myView) myWindow = [ myView window ];
+    if (myWindow == nil) return;
+	
+    [ myWindow setLevel:2002 ];
+}
+
 void BringAppToFront() {
     [ NSApp activateIgnoringOtherApps:YES ];
 }
@@ -71,8 +85,6 @@ uint32 * pixelsBelowWindow(int x, int y, int w, int h)
 
     // holds the bitmap returned to the caller 
     static NSBitmapImageRep *bitmapRep = nil;
-
-    // How do we set always on top?
 
     myContext = [ NSOpenGLContext currentContext ];
     if (myContext)

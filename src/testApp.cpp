@@ -8,11 +8,12 @@ extern "C" {
 
 #include <GLUT/glut.h>
 
+int forceKey=1;
+
 void testApp::setup(){
 	
-    ofSetWindowTitle("SendScreen Window");
+    ofSetWindowTitle("SendScreen");
 	tex.allocate(INIT_W, INIT_H, GL_RGBA);
-	ofSetFrameRate(15);
 	cout << "Sending to " << OUT_HOST << "\n";
 	
 	// open an outbound OSC 
@@ -30,8 +31,12 @@ void testApp::setup(){
     AlwaysOnTop();
 
     // Let's listen to some audio so we get called more often -- hackery!
+    // toggle with '*'
     psnFlag = 0;
 	ofSoundStreamSetup(0,2,this, 44100, 256, 4);	
+
+	ofBackground(255,255,255);
+	ofSetFrameRate(30);
 }
 
 int now=0,then=0; int ms=0;
@@ -47,9 +52,10 @@ void testApp::update(){
 void testApp::draw(){
 
     static int i=0;
-    	
-    i=0; // don't animate
+
+    // i=0; // don't animate
 	uint32 * data = pixelsBelowWindow(ofGetWindowPositionX()+(i++%300),ofGetWindowPositionY(),capW,capH);
+    
     // convert to GL_RGBA format
     if(data!=NULL){
         for (int i = 0; i < capW*capH; i++){
@@ -61,17 +67,20 @@ void testApp::draw(){
     }
 
     // send this image via OSC
-    if(data!=NULL) sendImage(data, capH, capW);
+    static int justonce=0;
+    if(data!=NULL && !justonce) sendImage(data, capH, capW);
+    justonce=1;
 
-    // cover the window
+    // draw what we captured
 	tex.draw(0,0, ofGetWidth(), ofGetHeight());
     drawCounter++;
-
-	// ofSetColor(0x0);
-	// char reportString[255];
-	// sprintf(reportString, "MS: %05i,%05i,%05i,%05i", ms, bufferCounter,drawCounter,updateCounter);
-	// ofDrawBitmapString(reportString,40,40);
-	// ofSetColor(0xffffffff);
+	
+    // draw # of ms since last update
+	ofSetColor(0x00);
+	char reportString[255];
+	sprintf(reportString, "%c%2d", forceKey?'*':' ',ms);
+	ofDrawBitmapString(reportString,5,5);
+	ofSetColor(0xffffffff);
 
 }
 
@@ -84,9 +93,11 @@ void testApp::audioReceived 	(float * input, int bufferSize, int nChannels){
         GetFrontProcess(&psn);
         psnFlag=1;
     }
-    CGEventRef e = CGEventCreateKeyboardEvent (NULL, (CGKeyCode)83, true);
-    CGEventPostToPSN (&psn,e);
-    CFRelease(e);
+    if(forceKey){
+        CGEventRef e = CGEventCreateKeyboardEvent (NULL, (CGKeyCode)0, true);
+        CGEventPostToPSN (&psn,e);
+        CFRelease(e);
+    }
 }
 
 void testApp::sendImage(uint* data, int h, int w){
@@ -100,7 +111,17 @@ void testApp::sendImage(uint* data, int h, int w){
 
 //--------------------------------------------------------------
 void testApp::keyPressed(int key){
-    // OF_KEY_LEFT, OF_KEY_UP, OF_KEY_RIGHT, OF_KEY_DOWN
+    if(key>=OF_KEY_LEFT && key <=OF_KEY_DOWN){
+        // OF_KEY_LEFT, OF_KEY_UP, OF_KEY_RIGHT, OF_KEY_DOWN
+        int deltas[][2]={{-1,0},{0,-1},{1,0},{0,1}};
+        int k = key-OF_KEY_LEFT;
+        ofSetWindowPosition(ofGetWindowPositionX()+deltas[k][0],
+                            ofGetWindowPositionY()+deltas[k][1]);
+    }
+    if(key=='*'){
+        // toggle keyboard hack
+        forceKey = !forceKey;
+    }
 }
 
 //--------------------------------------------------------------

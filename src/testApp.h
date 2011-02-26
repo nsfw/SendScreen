@@ -8,13 +8,11 @@
 #include "ofAddons.h"
 
 #define INIT_H 9
-#define INIT_W 50
+#define INIT_W 13
 
-#define OUT_H INIT_H		// NOTE: OUTPUT can not be more than 4K on receiver side!
-#define OUT_W INIT_W		
+// #define INIT_H 40
+// #define INIT_W 80
 
-
-// #define OUT_HOST "127.0.0.1"
 #ifdef MC
 #define OUT_HOST "239.192.192.192"	// multicast
 #define OUT_PORT 9192
