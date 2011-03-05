@@ -22,7 +22,11 @@ extern "C" {
 // Render Texture at OUTPUT RESOLUTION
 // Read rendered pixels and send
 
+int multiple=15;	// ratio of output pixels to capture window size
 int forceKey=1;		// Key Event Hack toggle
+int snapshotMode=0;	// snapshot mode - just send one picture
+int snapshot=0;		// trigger a snapshot
+int dumpShotFlag=0;		// dump the image out as a structure
 
 int interpModes[] = { CV_INTER_NN,
                       CV_INTER_LINEAR,
@@ -35,8 +39,8 @@ char interpStr[] = "NLAC";
 void sendScreenApp::setup(){
     ofSetWindowTitle("SendScreen");
 
-    capW = INIT_W;	
-    capH = INIT_H;
+    capW = OUT_W*multiple;
+    capH = OUT_H*multiple;
 
     // Capture and Output images
     capImg.allocate(capW, capH);
@@ -90,6 +94,11 @@ void copyToRGBA(ofxCvColorImage *img, char* data){
     }
 }
 
+void dumpShot(ofxCvColorImage *img){
+    // output image a data structure
+	cout << "//\n// Image\n//\n";
+
+}
 
 int now=0,then=0; int ms=0;
 
@@ -132,15 +141,26 @@ void sendScreenApp::draw(){
     outImg.draw(0,0);	// draw this scaled down in a corner
 
     // send this image via OSC
-    static int justonce=0;
-    if(data!=NULL && !justonce) sendImage(&outImg);
-    // justonce=1;
+    if(data!=NULL){
+        if(snapshotMode && snapshot){
+            sendImage(&outImg);
+            snapshot=0;
+        }
+        if(!snapshotMode) sendImage(&outImg);
+        if(dumpShotFlag){
+            dumpShot(&outImg);
+            dumpShotFlag=0;
+        }
+    }
 
     // draw # of ms since last update
 	ofSetColor(0x00);
 	char reportString[255];
 	sprintf(reportString, "%c%c%2d", interpStr[interpIdx], forceKey?'*':' ',ms);
 	ofDrawBitmapString(reportString,1,ofGetHeight()-10);
+    ofDrawBitmapString(snapshotMode?
+                       "SNAPSHOT MODE - press SPACE to Capture and Send - \"C\" key for continuous":
+                       "CONTINUOUS MODE - press \"S\" key for SNAPSHOT", 1, ofGetHeight()-25);
 	ofSetColor(0xffffffff);
 
 }
@@ -188,6 +208,19 @@ void sendScreenApp::keyPressed(int key){
     if(key=='i' || key=='I'){
         interpIdx = ++interpIdx % 4;
     }
+
+    if(key=='c' || key=='C') snapshotMode=0;
+    if(key=='s' || key=='S') snapshotMode=1;
+    if(key=='d' || key=='D') dumpShotFlag=1;
+    if(key=='+' || key=='=') {
+        if(++multiple > 100) multiple=100;
+        glutReshapeWindow(OUT_W*multiple,OUT_H*multiple);
+    }
+    if(key=='-' || key=='_') {
+        if(--multiple < 1) multiple=1;
+        glutReshapeWindow(OUT_W*multiple,OUT_H*multiple);
+    }
+    if(key==' ') snapshot=1;
 }
 
 //--------------------------------------------------------------
@@ -217,6 +250,8 @@ void sendScreenApp::mouseReleased(int x, int y, int button){
 
 //--------------------------------------------------------------
 void sendScreenApp::windowResized(int w, int h){
-
+    // Force Aspect Ratio to be constant
+    // test - see what happens if we keep W constant
+	// glutReshapeWindow(INIT_W, h);
 }
 

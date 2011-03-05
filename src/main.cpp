@@ -7,7 +7,7 @@ int main( ){
     ofAppGlutWindow window;
 
     // for output echo of screen capture area
-	ofSetupOpenGL(&window, INIT_W,INIT_H, OF_WINDOW);			// <-------- setup the GL context
+	ofSetupOpenGL( &window, OUT_W*INIT_MULT, OUT_H*INIT_MULT, OF_WINDOW);
 
 	// pass in width and height too:
 	ofRunApp( new sendScreenApp());

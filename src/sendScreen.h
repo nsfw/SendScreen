@@ -6,9 +6,10 @@
 // OUTPUT RESOLUTION
 #define OUT_W 30
 #define OUT_H 9
-// Initial window size
-#define INIT_W (OUT_W*15)
-#define INIT_H (OUT_H*15)
+//// Initial window size
+#define INIT_MULT 15
+//#define INIT_W (OUT_W*15)
+//#define INIT_H (OUT_H*15)
 
 // deprecated...
 // #define OF_ADDON_USING_OFXOSC
