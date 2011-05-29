@@ -67,10 +67,25 @@ void setFromGL_RGBA(ofxCvColorImage *capImg, char* data, int capW, int capH){
     for(int y=0; y<capH; y++){
         char *d = base + (y * capImg->getCvImage()->widthStep);
         for(int x=0; x<capW; x++){
+#if 0
+            // use intensity to scale
+            int r=*data++;
+            int g=*data++;
+            int b=*data++;
+            data++;
+            //
+            int m=max(r,max(g,b));
+            float f = m/255.0;	// what is the brightest componant as a fraction of MAX
+            *d++ = min(r*(1/f),255);
+            *d++ = min(g*(1/f),255);
+            *d++ = min(b*(1/f),255);
+            *d++ = max(f*255, 255);	// and then scale it back using intensity
+#else
             *d++=*data++;
             *d++=*data++;
             *d++=*data++;
             data++;
+#endif
         }
     }
     capImg->flagImageChanged();
