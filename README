@@ -1,24 +1,25 @@
 SendScreen sends a portion of your MAC (OSX) screen someplace via OSC.
 
 Currently how big a window it sends, and where it sends it is HARD
-CODED into the application. Yes, I feel very bad about this. 
+CODED into the application. Yes, I feel very bad about this. Almost fixed...
 
 Image is sent as a raw binary array, one ROW at a time of the format:
 uint16 width, height
 // row 0, ... row height-1
 uint32 pack(red:8, green:8, blue:8, alpha:8) x width  	// per row
 
-
 Usage:
+ Position the window over area to be echo'd to OSC
+ Note: Window size, destination IP address and OSC /path are all HARD CODED
 
-// v0.01
-Position the window over area to be echo'd to OSC
-Note: Window size, destination IP address and OSC /path are all HARD CODED
+Keys:
+ C - Continuous Mode
+ S - Snapshot Mode (space sends a snapshot)
+ I - interpolation mode for scaling down (N=Nearest Neighbor)
+ ARROWS - will scootch capture window one pixel in any direction
 
 // Future -- 
 OSC output info should be enterable
 Capture size may be an even multiple of output size (+ / - )
-When scaling down image will either be scaled (good for images) or
-decimated (maybe better for digital effects)
 
 
