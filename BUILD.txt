@@ -1,0 +1,3 @@
+This is setup up to build under the ./apps/examples/ directory,
+i.e. $OF/apps/examples/sendscreen
+
