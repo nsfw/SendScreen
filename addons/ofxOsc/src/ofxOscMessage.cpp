@@ -153,7 +153,7 @@ string ofxOscMessage::getArgAsString( int index ) const
 ofxOscArgBlob * ofxOscMessage::getArgAsBlobPtr(int index ) const
 {
      if ( getArgType(index) != OFXOSC_TYPE_BLOB ){
-         fprintf(stderr, "ofxOscMessage:getArgAsString: error: argument %i is not a string\n", index );
+         fprintf(stderr, "ofxOscMessage:getArgAsBlobPtr: error: argument %i is not a blob\n", index );
          return 0;
      }
      return (ofxOscArgBlob*) args[index];
@@ -214,10 +214,10 @@ ofxOscMessage& ofxOscMessage::copy( const ofxOscMessage& other )
 			args.push_back( new ofxOscArgFloat( other.getArgAsFloat( i ) ) );
 		else if ( argType == OFXOSC_TYPE_STRING )
 			args.push_back( new ofxOscArgString( other.getArgAsString( i ) ) );
-        else if ( argType == OFXOSC_TYPE_BLOB ) 
-            assert( false && "scott didnt teach me how to copy blobs");
-		else
-		{
+        else if ( argType == OFXOSC_TYPE_BLOB ) {
+            ofxOscArgBlob *otherBlob = other.getArgAsBlobPtr( i );
+            args.push_back( new ofxOscArgBlob( otherBlob->get(), otherBlob->getLen() ) );
+        } else {
 			assert( false && "bad argument type" );
 		}
 	}
